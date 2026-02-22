@@ -24,6 +24,7 @@ customElements.define('lotto-number', LottoNumber);
 
 const lottoNumbersDiv = document.getElementById('lotto-numbers');
 const generateBtn = document.getElementById('generate-btn');
+const lottoHistoryList = document.getElementById('lotto-history-list');
 const themeToggle = document.getElementById('theme-toggle');
 
 const THEME_KEY = 'lotto-theme';
@@ -65,9 +66,20 @@ function displayNumbers(numbers) {
     }
 }
 
+function addHistory(numbers) {
+    const item = document.createElement('li');
+    item.textContent = numbers.join(', ');
+    lottoHistoryList.prepend(item);
+    const items = lottoHistoryList.querySelectorAll('li');
+    if (items.length > 10) {
+        items[items.length - 1].remove();
+    }
+}
+
 generateBtn.addEventListener('click', () => {
     const numbers = generateNumbers();
     displayNumbers(numbers);
+    addHistory(numbers);
 });
 
 themeToggle.addEventListener('click', () => {
@@ -77,57 +89,26 @@ themeToggle.addEventListener('click', () => {
 
 initTheme();
 
-const animalStartBtn = document.getElementById('animal-start');
+const animalFileInput = document.getElementById('animal-file');
+const animalPreview = document.getElementById('animal-preview');
 const webcamContainer = document.getElementById('webcam-container');
 const labelContainer = document.getElementById('label-container');
 
 const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/vEzP_z-VO/';
 
 let animalModel;
-let animalWebcam;
 let animalMaxPredictions = 0;
-let animalLoopActive = false;
 
-async function initAnimalTest() {
-    if (animalLoopActive) return;
-    animalStartBtn.disabled = true;
-    animalStartBtn.textContent = 'Loading...';
-
+async function initAnimalModel() {
+    if (animalModel) return;
     const modelURL = `${MODEL_URL}model.json`;
     const metadataURL = `${MODEL_URL}metadata.json`;
-
     animalModel = await tmImage.load(modelURL, metadataURL);
     animalMaxPredictions = animalModel.getTotalClasses();
-
-    const flip = true;
-    animalWebcam = new tmImage.Webcam(260, 260, flip);
-    await animalWebcam.setup();
-    await animalWebcam.play();
-    animalLoopActive = true;
-
-    webcamContainer.innerHTML = '';
-    webcamContainer.appendChild(animalWebcam.canvas);
-
-    labelContainer.innerHTML = '';
-    for (let i = 0; i < animalMaxPredictions; i += 1) {
-        const row = document.createElement('div');
-        row.className = 'label-row';
-        labelContainer.appendChild(row);
-    }
-
-    animalStartBtn.textContent = 'Running';
-    requestAnimationFrame(animalLoop);
 }
 
-async function animalLoop() {
-    if (!animalLoopActive) return;
-    animalWebcam.update();
-    await predictAnimal();
-    requestAnimationFrame(animalLoop);
-}
-
-async function predictAnimal() {
-    const prediction = await animalModel.predict(animalWebcam.canvas);
+async function predictAnimal(imageElement) {
+    const prediction = await animalModel.predict(imageElement);
     for (let i = 0; i < animalMaxPredictions; i += 1) {
         const item = prediction[i];
         const row = labelContainer.childNodes[i];
@@ -135,11 +116,29 @@ async function predictAnimal() {
     }
 }
 
-animalStartBtn.addEventListener('click', () => {
-    initAnimalTest().catch((error) => {
+animalFileInput.addEventListener('change', async (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    try {
+        labelContainer.innerHTML = 'Loading model...';
+        await initAnimalModel();
+
+        const imageURL = URL.createObjectURL(file);
+        animalPreview.src = imageURL;
+        await animalPreview.decode();
+
+        labelContainer.innerHTML = '';
+        for (let i = 0; i < animalMaxPredictions; i += 1) {
+            const row = document.createElement('div');
+            row.className = 'label-row';
+            labelContainer.appendChild(row);
+        }
+
+        await predictAnimal(animalPreview);
+        URL.revokeObjectURL(imageURL);
+    } catch (error) {
         console.error(error);
-        animalStartBtn.disabled = false;
-        animalStartBtn.textContent = 'Start';
-        labelContainer.innerHTML = 'Camera access failed. Please allow permissions and try again.';
-    });
+        labelContainer.innerHTML = 'Prediction failed. Please try another image.';
+    }
 });

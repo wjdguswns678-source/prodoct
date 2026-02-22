@@ -13,12 +13,17 @@
             Dark Mode
         </button>
     </div>
-    <div class="container">
-        <h1>Lotto Number Generator</h1>
-        <div class="lotto-numbers" id="lotto-numbers">
-            </div>
-        <button id="generate-btn">Generate Numbers</button>
-    </div>
+    <section class="lotto">
+        <div class="container">
+            <h1>Lotto Number Generator</h1>
+            <div class="lotto-numbers" id="lotto-numbers"></div>
+            <button id="generate-btn">Generate Numbers</button>
+        </div>
+        <div class="lotto-history">
+            <h2>Draw History</h2>
+            <ul id="lotto-history-list"></ul>
+        </div>
+    </section>
     <section class="inquiry">
         <div class="inquiry-card">
             <h2>Partner Inquiry</h2>
@@ -73,18 +78,21 @@
             <div class="animal-header">
                 <div>
                     <h2>Animal Face Test</h2>
-                    <p>Find out if you’re more dog-like or cat-like using your camera.</p>
+                    <p>Upload a photo to see if you’re more dog-like or cat-like.</p>
                 </div>
-                <button type="button" class="form-btn" id="animal-start">Start</button>
+                <label class="file-btn" for="animal-file">Choose Image</label>
+                <input type="file" id="animal-file" accept="image/*">
             </div>
             <div class="animal-grid">
-                <div class="webcam-wrap" id="webcam-container"></div>
+                <div class="webcam-wrap" id="webcam-container">
+                    <img id="animal-preview" alt="Uploaded preview">
+                </div>
                 <div class="labels-wrap">
                     <h3>Results</h3>
                     <div id="label-container" class="label-container"></div>
                 </div>
             </div>
-            <p class="animal-note">Camera access is required. Your video stays on your device.</p>
+            <p class="animal-note">Images are processed in your browser.</p>
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
