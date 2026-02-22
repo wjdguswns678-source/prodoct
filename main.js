@@ -25,10 +25,28 @@ class LottoNumber extends HTMLElement {
 
         const numberDiv = document.createElement('div');
         numberDiv.classList.add('lotto-number');
-        numberDiv.textContent = this.getAttribute('number');
+        numberDiv.textContent = '';
+        this._numberDiv = numberDiv;
 
         shadow.appendChild(style);
         shadow.appendChild(numberDiv);
+    }
+
+    static get observedAttributes() {
+        return ['number'];
+    }
+
+    connectedCallback() {
+        this._syncNumber();
+    }
+
+    attributeChangedCallback() {
+        this._syncNumber();
+    }
+
+    _syncNumber() {
+        if (!this._numberDiv) return;
+        this._numberDiv.textContent = this.getAttribute('number') || '';
     }
 }
 
