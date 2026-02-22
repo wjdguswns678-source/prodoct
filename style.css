@@ -1,48 +1,127 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+:root {
+    color-scheme: light;
+    --bg-start: #f6d365;
+    --bg-end: #fda085;
+    --text: #1f2937;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --shadow: rgba(15, 23, 42, 0.2);
+    --accent: #ff6b6b;
+    --accent-glow: rgba(255, 107, 107, 0.6);
+    --ball-bg: rgba(255, 255, 255, 0.6);
+    --ball-border: rgba(31, 41, 55, 0.6);
+    --ball-text: #111827;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --bg-start: #0f172a;
+    --bg-end: #1e293b;
+    --text: #f8fafc;
+    --card-bg: rgba(15, 23, 42, 0.7);
+    --card-border: rgba(148, 163, 184, 0.2);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --accent: #60a5fa;
+    --accent-glow: rgba(96, 165, 250, 0.6);
+    --ball-bg: rgba(148, 163, 184, 0.2);
+    --ball-border: rgba(248, 250, 252, 0.6);
+    --ball-text: #f8fafc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: white;
+    margin: 0;
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+    color: var(--text);
+    transition: background 0.4s ease, color 0.4s ease;
 }
 
 .container {
     text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    background: var(--card-bg);
+    padding: 36px 40px 42px;
+    border-radius: 18px;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 20px 40px var(--shadow);
+    backdrop-filter: blur(12px);
+    max-width: 620px;
+    width: min(90vw, 620px);
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
 }
 
 h1 {
-    margin-bottom: 30px;
+    margin: 0;
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+}
+
+.theme-toggle {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    transition: transform 0.2s ease, border 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .lotto-numbers {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 #generate-btn {
-    padding: 15px 30px;
+    padding: 14px 30px;
     font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
     border: none;
-    border-radius: 10px;
-    background: #ff4757;
-    color: white;
-    box-shadow: 0 0 10px #ff4757, 0 0 20px #ff4757, 0 0 30px #ff4757;
-    transition: all 0.3s ease;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #generate-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 15px #ff4757, 0 0 25px #ff4757, 0 0 35px #ff4757;
+    box-shadow: 0 0 18px var(--accent-glow), 0 0 32px var(--accent-glow);
+}
+
+@media (max-width: 520px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .theme-toggle {
+        width: 100%;
+    }
 }
