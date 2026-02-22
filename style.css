@@ -45,6 +45,9 @@ body {
     background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
     color: var(--text);
     transition: background 0.4s ease, color 0.4s ease;
+    flex-direction: column;
+    gap: 28px;
+    padding: 80px 16px 48px;
 }
 
 .page-toggle {
@@ -110,6 +113,83 @@ lotto-number.lotto-number {
     font-size: 28px;
     font-weight: 600;
     box-shadow: 0 0 10px rgba(15, 23, 42, 0.25);
+}
+
+.inquiry {
+    width: min(90vw, 620px);
+}
+
+.inquiry-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 32px 34px;
+    box-shadow: 0 20px 40px var(--shadow);
+    backdrop-filter: blur(12px);
+}
+
+.inquiry-card h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+}
+
+.inquiry-card p {
+    margin: 0 0 24px;
+    opacity: 0.85;
+}
+
+.inquiry-card form {
+    display: grid;
+    gap: 14px;
+}
+
+.inquiry-card label {
+    display: grid;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.inquiry-card input,
+.inquiry-card textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.35);
+    color: var(--text);
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+html[data-theme="dark"] .inquiry-card input,
+html[data-theme="dark"] .inquiry-card textarea {
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.inquiry-card input:focus,
+.inquiry-card textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.form-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 18px var(--accent-glow), 0 0 32px var(--accent-glow);
 }
 
 #generate-btn {

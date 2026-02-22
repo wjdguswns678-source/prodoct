@@ -19,6 +19,31 @@
             </div>
         <button id="generate-btn">Generate Numbers</button>
     </div>
+    <section class="inquiry">
+        <div class="inquiry-card">
+            <h2>Partner Inquiry</h2>
+            <p>Let’s explore a partnership. Send us a quick note.</p>
+            <form action="https://formspree.io/f/xzdajwyy" method="POST">
+                <label>
+                    Name
+                    <input type="text" name="name" placeholder="Your name" required>
+                </label>
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="you@email.com" required>
+                </label>
+                <label>
+                    Company
+                    <input type="text" name="company" placeholder="Company name">
+                </label>
+                <label>
+                    Message
+                    <textarea name="message" rows="4" placeholder="Tell us about the partnership idea" required></textarea>
+                </label>
+                <button type="submit" class="form-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
     <script src="main.js"></script>
 </body>
 </html>
