@@ -76,3 +76,70 @@ themeToggle.addEventListener('click', () => {
 });
 
 initTheme();
+
+const animalStartBtn = document.getElementById('animal-start');
+const webcamContainer = document.getElementById('webcam-container');
+const labelContainer = document.getElementById('label-container');
+
+const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/vEzP_z-VO/';
+
+let animalModel;
+let animalWebcam;
+let animalMaxPredictions = 0;
+let animalLoopActive = false;
+
+async function initAnimalTest() {
+    if (animalLoopActive) return;
+    animalStartBtn.disabled = true;
+    animalStartBtn.textContent = 'Loading...';
+
+    const modelURL = `${MODEL_URL}model.json`;
+    const metadataURL = `${MODEL_URL}metadata.json`;
+
+    animalModel = await tmImage.load(modelURL, metadataURL);
+    animalMaxPredictions = animalModel.getTotalClasses();
+
+    const flip = true;
+    animalWebcam = new tmImage.Webcam(260, 260, flip);
+    await animalWebcam.setup();
+    await animalWebcam.play();
+    animalLoopActive = true;
+
+    webcamContainer.innerHTML = '';
+    webcamContainer.appendChild(animalWebcam.canvas);
+
+    labelContainer.innerHTML = '';
+    for (let i = 0; i < animalMaxPredictions; i += 1) {
+        const row = document.createElement('div');
+        row.className = 'label-row';
+        labelContainer.appendChild(row);
+    }
+
+    animalStartBtn.textContent = 'Running';
+    requestAnimationFrame(animalLoop);
+}
+
+async function animalLoop() {
+    if (!animalLoopActive) return;
+    animalWebcam.update();
+    await predictAnimal();
+    requestAnimationFrame(animalLoop);
+}
+
+async function predictAnimal() {
+    const prediction = await animalModel.predict(animalWebcam.canvas);
+    for (let i = 0; i < animalMaxPredictions; i += 1) {
+        const item = prediction[i];
+        const row = labelContainer.childNodes[i];
+        row.textContent = `${item.className}: ${(item.probability * 100).toFixed(1)}%`;
+    }
+}
+
+animalStartBtn.addEventListener('click', () => {
+    initAnimalTest().catch((error) => {
+        console.error(error);
+        animalStartBtn.disabled = false;
+        animalStartBtn.textContent = 'Start';
+        labelContainer.innerHTML = 'Camera access failed. Please allow permissions and try again.';
+    });
+});
