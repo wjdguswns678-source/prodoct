@@ -1,0 +1,12 @@
+{
+  "name": "lotto-number-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lotto number generator with light/dark mode and inquiry form.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1"
+  }
+}
