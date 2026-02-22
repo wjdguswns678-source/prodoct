@@ -1,42 +1,13 @@
 
 class LottoNumber extends HTMLElement {
-    constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: 'open' });
-
-        const style = document.createElement('style');
-        style.textContent = `
-            .lotto-number {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                background: var(--ball-bg);
-                color: var(--ball-text);
-                border: 2px solid var(--ball-border);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 28px;
-                font-weight: 600;
-                margin: 0 8px;
-                box-shadow: 0 0 10px rgba(15, 23, 42, 0.25);
-            }
-        `;
-
-        const numberDiv = document.createElement('div');
-        numberDiv.classList.add('lotto-number');
-        numberDiv.textContent = '';
-        this._numberDiv = numberDiv;
-
-        shadow.appendChild(style);
-        shadow.appendChild(numberDiv);
-    }
-
     static get observedAttributes() {
         return ['number'];
     }
 
     connectedCallback() {
+        if (!this.classList.contains('lotto-number')) {
+            this.classList.add('lotto-number');
+        }
         this._syncNumber();
     }
 
@@ -45,8 +16,7 @@ class LottoNumber extends HTMLElement {
     }
 
     _syncNumber() {
-        if (!this._numberDiv) return;
-        this._numberDiv.textContent = this.getAttribute('number') || '';
+        this.textContent = this.getAttribute('number') || '';
     }
 }
 

@@ -97,6 +97,21 @@ h1 {
     gap: 10px;
 }
 
+lotto-number.lotto-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ball-bg);
+    color: var(--ball-text);
+    border: 2px solid var(--ball-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(15, 23, 42, 0.25);
+}
+
 #generate-btn {
     padding: 14px 30px;
     font-size: 18px;
