@@ -192,6 +192,24 @@ html[data-theme="dark"] .inquiry-card textarea {
     box-shadow: 0 0 18px var(--accent-glow), 0 0 32px var(--accent-glow);
 }
 
+.comments {
+    width: min(90vw, 820px);
+}
+
+.comments-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 32px 34px;
+    box-shadow: 0 20px 40px var(--shadow);
+    backdrop-filter: blur(12px);
+}
+
+.comments-card h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+}
+
 #generate-btn {
     padding: 14px 30px;
     font-size: 18px;
